@@ -21,7 +21,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-12 text-right">
-                        <a class="btn btn-success"><i class="fas fa-plus"></i> Thêm sản phẩm</a>
+                        <a class="btn btn-success" href="{{ route('admin.product.create') }}"><i class="fas fa-plus"></i> Thêm sản phẩm</a>
                         <a class="btn btn-danger"><i class="fas fa-trash"></i> Thùng rác</a>
                     </div>
                 </div>

@@ -29,37 +29,49 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="mb-3">
-                            <label>Tên danh mục (*)</label>
-                            <input type="text" name="name" id="name" placeholder="Nhập tên danh mục"
-                                class="form-control" onkeydown="handle_slug(this.value);">
-                        </div>
-                        <div class="mb-3">
-                            <label>Slug</label>
-                            <input type="text" name="slug" id="slug" placeholder="Nhập slug"
-                                class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label>Danh mục cha (*)</label>
-                            <select name="parent_id" class="form-control">
-                                <option value="">None</option>
-                                <option value="1">Tên danh mục</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label>Hình đại diện</label>
-                            <input type="file" name="image" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label>Trạng thái</label>
-                            <select name="status" class="form-control">
-                                <option value="1">Xuất bản</option>
-                                <option value="2">Chưa xuất bản</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <a class="btn btn-success"><i class="fas fa-plus"></i> Thêm danh mục</a>
-                        </div>
+                        <form action="{{ route('admin.category.store') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="name">Tên danh mục</label>
+                                <input type="text" value="" name="name" id="name" class="form-control">
+                                @error('name')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="description">Mô tả</label>
+                                <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="parent_id">Danh mục cha</label>
+                                <select name="parent_id" id="parent_id" class="form-control">
+                                    <option value="0">None</option>
+                                    {!! $htmlparentid !!}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="sort_order">Sắp xếp</label>
+                                <select name="sort_order" id="sort_order" class="form-control">
+                                    <option value="0">None</option>
+                                    {!! $htmlsortorder !!}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="image">Hình</label>
+                                <input type="file" name="image" id="image" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="status">Trạng thái</label>
+                                <select name="status" id="status" class="form-control">
+                                    <option value="2">Chưa xuất bản</option>
+                                    <option value="1">Xuất bản</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" name="create" class="btn btn-success"><i class="fas fa-plus"></i>
+                                    Thêm danh mục</button>
+                            </div>
+                        </form>
                     </div>
                     <div class="col-md-9">
                         <table class="table table-bordered">
@@ -79,7 +91,7 @@
                                 @foreach ($list as $row)
                                     <tr>
                                         <td class="text-center"><input type="checkbox" style="width: 20px"></td>
-                                        <td class="text-center"><img src="{{ asset('image/categories/' . $row->image) }}"
+                                        <td class="text-center"><img src="{{ asset('images/categories/' . $row->image) }}"
                                                 style="width: 100px" alt="{{ $row->image }}"></td>
                                         <td>{{ $row->name }}</td>
                                         <td>{{ $row->parent_id }}</td>

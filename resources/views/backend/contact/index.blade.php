@@ -21,7 +21,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-12 text-right">
-                        <a class="btn btn-success"><i class="fas fa-plus"></i> Thêm Liên hệ</a>
+                        <a class="btn btn-success" href="{{ route('admin.contact.create') }}"><i class="fas fa-plus"></i> Thêm Liên hệ</a>
                         <a class="btn btn-danger"><i class="fas fa-trash"></i> Thùng rác</a>
                     </div>
                 </div>
@@ -52,15 +52,24 @@
                                 <td>{{ $row->title }}</td>
                                 <td>{{ $row->content }}</td>
                                 @php
-
+                                    $args = ['id' => $row->id];
                                 @endphp
                                 <td class="text-center">
-                                    <a class="btn btn-success"><i class="fas fa-toggle-on"></i></a>
-                                    <a class="btn btn-danger"><i class="fas fa-toggle-off"></i></a>
-                                    <a class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                                    <a class="btn btn-info"><i class="fas fa-edit"></i></a>
-                                    <a class="btn btn-warning text-white"><i class="far fa-trash-alt"></i></a>
+                                    @if ($row->status == 1)
+                                        <a href="{{ route('admin.banner.status', $args) }}" class="btn btn-success"><i
+                                                class="fas fa-toggle-on"></i></a>
+                                    @else
+                                        <a href="{{ route('admin.banner.status', $args) }}" class="btn btn-danger"><i
+                                                class="fas fa-toggle-off"></i></a>
+                                    @endif
+                                    <a href="{{ route('admin.banner.show', $args) }}" class="btn btn-primary"><i
+                                            class="fas fa-eye"></i></a>
+                                    <a href="{{ route('admin.banner.edit', $args) }}" class="btn btn-info"><i
+                                            class="fas fa-edit"></i></a>
+                                    <a href="{{ route('admin.banner.delete', $args) }}"
+                                        class="btn btn-warning text-white"><i class="far fa-trash-alt"></i></a>
                                 </td>
+
                                 <td class="text-center">
                                 <td>{{ $row->id }}</td>
                                 </td>

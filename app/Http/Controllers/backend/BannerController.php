@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBannerRequest;
 use App\Models\Banner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class BannerController extends Controller
 {
@@ -32,15 +35,37 @@ class BannerController extends Controller
      */
     public function create()
     {
-        //
+        return  view("backend.banner.create");
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBannerRequest $request)
     {
-        //
+        // Thêm vào CSDL
+        // Thêm mới banner
+        $banner = new banner();
+        $banner->name = $request->name;
+        $banner->link = $request->link;
+        $banner->position = $request->position;
+        $banner->description = $request->description;
+        // Upload image
+        if ($request->hasFile('image')) {
+            $extension = $request->file('image')->extension();
+            if (in_array($extension, ['jpg', 'png', 'gif', 'webp'])) {
+                $filename = $banner->slug . "." . $extension;
+                $request->image->move(public_path("images/banner"), $filename);
+                $banner->image = $filename;
+            }
+        }
+        // end Upload
+        $banner->status = $request->status;
+        $banner->created_at = date('Y-m-d-H:i:s');
+        $banner->created_by = Auth::id() ?? 1;
+        $banner->save();
+        // Chuyển hướng trang
+        return redirect()->route('admin.banner.index')->with('success', 'Banner đã được tạo thành công.');
     }
 
     /**

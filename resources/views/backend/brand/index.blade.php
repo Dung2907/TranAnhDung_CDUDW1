@@ -25,41 +25,45 @@
                     </div>
                 </div>
             </div>
-
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="mb-3">
-                            <label>Tên danh mục (*)</label>
-                            <input type="text" name="name" id="name" placeholder="Nhập tên danh mục"
-                                class="form-control" onkeydown="handle_slug(this.value);">
-                        </div>
-                        <div class="mb-3">
-                            <label>Slug</label>
-                            <input type="text" name="slug" id="slug" placeholder="Nhập slug"
-                                class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label>Danh mục cha (*)</label>
-                            <select name="parent_id" class="form-control">
-                                <option value="">None</option>
-                                <option value="1">Tên danh mục</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label>Hình đại diện</label>
-                            <input type="file" name="image" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label>Trạng thái</label>
-                            <select name="status" class="form-control">
-                                <option value="1">Xuất bản</option>
-                                <option value="2">Chưa xuất bản</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <a class="btn btn-success"><i class="fas fa-plus"></i> Thêm thương hiệu</a>
-                        </div>
+                        <form action="{{ route('admin.brand.store') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="mb-3">
+                                <label>Tên thương hiệu (*)</label>
+                                <input type="text" name="name" class="form-control">
+                                @error('name')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label>Mô tả</label>
+                                <textarea name="description" class="form-control">{{ old('description') }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="sort_order">Sắp xếp</label>
+                                <select name="sort_order" id="sort_order" class="form-control">
+                                    <option value="0">None</option>
+                                    {!! $htmlsortorder !!}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label>Hình đại diện</label>
+                                <input type="file" name="image" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label>Trạng thái</label>
+                                <select name="status" class="form-control">
+                                    <option value="1">Xuất bản</option>
+                                    <option value="2">Chưa xuất bản</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" name="create" class="btn btn-success"><i class="fas fa-plus"></i>
+                                    Thêm </button>
+                            </div>
+                        </form>
                     </div>
                     <div class="col-md-9">
                         <table class="table table-bordered">
@@ -98,17 +102,17 @@
                                             <a href="{{ route('admin.category.delete', $args) }}"
                                                 class="btn btn-warning text-white"><i class="far fa-trash-alt"></i></a>
                                         </td>
-
                                         <td class="text-center">{{ $row->id }}</td>
-
                                     </tr>
                                 @endforeach
                             </tbody>
-
                         </table>
                     </div>
                 </div>
             </div>
+
+        </div>
+
         </div>
     </section>
 

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Quản lý sản phẩm')
+@section('title', 'Quản lý TOPIC')
 @section('content')
     <section class="content-header">
         <div class="container-fluid">
@@ -30,25 +30,26 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label>Tên Chủ đề (*)</label>
-                            <input type="text" name="name" id="name" placeholder="Nhập tên Chủ đề"
-                                class="form-control" onkeydown="handle_slug(this.value);">
+                            <form action="{{ route('admin.topic.store') }}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <label>Tên Chủ đề (*)</label>
+                                <input type="text" name="name" id="name" placeholder="Nhập tên Chủ đề"
+                                    class="form-control" onkeydown="handle_slug(this.value);">
+                                @error('name')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                         </div>
                         <div class="mb-3">
-                            <label>Slug</label>
-                            <input type="text" name="slug" id="slug" placeholder="Nhập slug"
+                            <label>Mô tả</label>
+                            <input type="text" name="description" id="description" placeholder="Nhập Mô tả"
                                 class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label>Chủ đề cha (*)</label>
+                            <label>Sắp xếp (*)</label>
                             <select name="parent_id" class="form-control">
                                 <option value="">None</option>
-                                <option value="1">Tên Chủ đề</option>
+                                {!! $htmlsortorder !!}
                             </select>
-                        </div>
-                        <div class="mb-3">
-                            <label>Hình đại diện</label>
-                            <input type="file" name="image" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label>Trạng thái</label>
@@ -57,9 +58,12 @@
                                 <option value="2">Chưa xuất bản</option>
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <a class="btn btn-success"><i class="fas fa-plus"></i> Thêm chủ đề</a>
+                        <div class="mb-3"> <button type="submit" name="create" class="btn btn-success"><i
+                                    class="fas fa-plus"></i>
+                                Thêm chủ đề</button>
                         </div>
+                        </form>
+
                     </div>
                     <div class="col-md-9">
                         <table class="table table-bordered">
